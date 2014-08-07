@@ -11,7 +11,6 @@ d3.chart('BlockChart', {
     this.valCount = {'low' : 0, 'medium' : 0 , 'high' : 0, 'unknown' : 0}; // Count of items that belong to each possible catgory
     $(this.base[0]).attr('height', this.h + 'px');
     $(this.base[0]).attr('width', this.w + 'px');
-    this.data = "";
     
     var tooltip = d3.select('body').append('div')
       .classed('tooltip', 'true')
@@ -29,7 +28,6 @@ d3.chart('BlockChart', {
         chart.rows = Math.ceil(data.length/chart.cols);
         chart.updateScales();
         data.sort(function(a,b) { var comparison =  chart.pVals.indexOf(a.value) - chart.pVals.indexOf(b.value); return comparison; });
-        chart.data = data;
         return this.selectAll('all-points').data(data); // return a data bound selection for the passed in data.
 
       },
