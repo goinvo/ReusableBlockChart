@@ -9,8 +9,13 @@ d3.chart('BlockChart', {
     this.updateScales();
     this.pVals = ['low', 'medium', 'high', 'unknown']; // Possible Categories (Values)
     this.valCount = {'low' : 0, 'medium' : 0 , 'high' : 0, 'unknown' : 0}; // Count of items that belong to each possible catgory
+    this.mode = "all";
+    this.initialData = [];
+    this.percentData = [];
+    this.tempData = [];
     $(this.base[0]).attr('height', this.h + 'px');
     $(this.base[0]).attr('width', this.w + 'px');
+    
     
     var tooltip = d3.select('body').append('div')
       .classed('tooltip', 'true')
@@ -25,9 +30,11 @@ d3.chart('BlockChart', {
     this.layer('all-points', dataBase, {
       dataBind: function(data) {
         var chart = this.chart();
+        chart.tempData = data;
         chart.rows = Math.ceil(data.length/chart.cols);
         chart.updateScales();
         data.sort(function(a,b) { var comparison =  chart.pVals.indexOf(a.value) - chart.pVals.indexOf(b.value); return comparison; });
+        this.selectAll('.all-points>rect').remove();
         return this.selectAll('all-points').data(data); // return a data bound selection for the passed in data.
 
       },
@@ -43,12 +50,7 @@ d3.chart('BlockChart', {
           .attr('height', chart.pointSize + 'px')
           .each(function(d,i){ chart.valCount[d.value] = chart.valCount[d.value] + 1; })
           .on("mouseover", function(d, i){ 
-            var catPerc = 0;
-            for(var k = 0; k < chart.pVals.length; k++) {
-              catPerc = catPerc + chart.valCount[chart.pVals[k]];
-            }
-            if(catPerc != 0) { catPerc = chart.valCount[d.value]/catPerc*100; }
-            
+            var catPerc = chart.getPercentage(d.value);
             tooltip.html('<span class = "tooltip-category">Category: ' + d.value + '</span><br><span class ="tooltip-category-num"># of items: ' + chart.valCount[d.value] + '</span><br><span class = "category-percentage">Percentage: ' + catPerc.toFixed(1) + '%</span>'); 
             tooltip.style("visibility", "visible");
             d3.selectAll('.category-' + chart.pVals.indexOf(d.value)).attr("stroke", "black").attr("stroke-width", "10px").attr("stroke-opacity", .1);
@@ -156,5 +158,49 @@ d3.chart('BlockChart', {
   },
   getYCoordinate: function(d, i) { // returns the y-coordinate for a point  *** currently set for simply making 1 graphpoint per datapoint
     return this.yScale(Math.ceil(((i+1)/this.cols))) + 'px'; // y = index / (# of rows)
+  },
+  getPercentage: function(category) { // returns the perctenage of points with that category (value)
+    var catPerc = 0;
+    for(var k = 0; k < chart.pVals.length; k++) {
+      catPerc = catPerc + chart.valCount[chart.pVals[k]];
+    }
+    if(catPerc != 0) { catPerc = chart.valCount[category]/catPerc*100; }
+    return catPerc;
+  },
+  getMode: function() { // returns the perctenage of points with that category (value)
+    return chart.mode;
+  },
+  showPercentages: function() { // Changes the display to percentages **** Fix rounding error
+    chart.rows = 10;
+    chart.mode = "percent";
+    if(chart.initialData.length === 0) {
+      chart.initialData = chart.tempData;
+    }
+    var totalPoints = chart.rows * chart.cols;
+    chart.percentData = [];
+    for(var k = 0; k < chart.pVals.length; k ++) {
+      perc = chart.getPercentage(chart.pVals[k]);
+      numElements = parseInt(totalPoints*perc/100);
+      for (var l = 0; l < numElements; l++) {
+        chart.percentData.push({ "key" : "???", "value" : chart.pVals[k]}); 
+      }
+      
+      chart.draw(chart.percentData);
+    }
+    
+    
+    //this.updateThePoints();
+    return this;
+  },
+  showAllPoints: function() { // Changes the display to all points
+    chart.mode = "all";
+    if(chart.initialData.length === 0) {
+      chart.draw(chart.tempData); 
+    }
+    else {
+      chart.draw(chart.initialData);
+    }
+    //this.updateThePoints();
+    return this;
   }
 });
