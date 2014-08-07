@@ -50,9 +50,12 @@ d3.chart('BlockChart', {
             catPerc = chart.valCount[d.value]/catPerc*100;
             tooltip.html('<span class = "tooltip-category">Category: ' + d.value + '</span><br><span class ="tooltip-category-num"># of items: ' + chart.valCount[d.value] + '</span><br><span class = "category-percentage">Percentage: ' + catPerc.toFixed(1) + '%</span>'); 
             tooltip.style("visibility", "visible");
+            d3.selectAll('.category-' + chart.pVals.indexOf(d.value)).attr("stroke", "black").attr("stroke-width", "10px").attr("stroke-opacity", .2);
             })
 	      .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-	      .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+	      .on("mouseout", function(d){
+            d3.selectAll('.category-' + chart.pVals.indexOf(d.value)).attr("stroke", "").attr("stroke-width", "").attr("stroke-opacity", "");
+            return tooltip.style("visibility", "hidden");});
         
         return returning;
       },
