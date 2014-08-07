@@ -1,4 +1,20 @@
 #chart-container {
    border: 1px solid black;
-   
+}
+
+
+.category-0 {
+   fill: green; 
+}
+
+.category-1 {
+   fill: blue; 
+}
+
+.category-2 {
+   fill: orange; 
+}
+
+.category-3 {
+   fill: red; 
 }

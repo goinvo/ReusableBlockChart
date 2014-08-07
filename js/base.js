@@ -7,7 +7,7 @@ d3.chart("BlockChart", {
     this.rows = 1;
     this.pointSize = 10;
     this.updateScales();
-    this.pVals = ["low", "medium", "high", "unkown"];
+    this.pVals = ["low", "medium", "high", "unknown"];
     $(this.base[0]).attr("height", this.h + "px");
     $(this.base[0]).attr("width", this.w + "px");
     
@@ -19,6 +19,7 @@ d3.chart("BlockChart", {
         var chart = this.chart();
         chart.rows = Math.ceil(data.length/chart.cols);
         chart.updateScales();
+        data.sort(function(a,b) { var comparison =  chart.pVals.indexOf(a.value) - chart.pVals.indexOf(b.value); console.log("result: " + comparison); return comparison; });
         return this.selectAll("all-points").data(data); // return a data bound selection for the passed in data.
 
       },
@@ -27,9 +28,10 @@ d3.chart("BlockChart", {
         var chart = this.chart();
         var origNumPoints = chart.numPoints;  
         var returning = this.append("rect")  
-          .classed("rectangle", true)
-          .style("fill", "red")  // just choosing a color for now
-          .attr("y", function(d,i) {  return chart.getYCoordinate(d,i); } )
+          .attr("class", function(d) {return "category-" + chart.pVals.indexOf(d.value);})
+          .attr("data-category", function(d) {return d.value;})
+          .attr("data-category-index", function(d){return chart.pVals.indexOf(d.value);})
+          .attr("y", function(d,i) { return chart.getYCoordinate(d,i); } )
           .attr("width", chart.pointSize + "px")
           .attr("height", chart.pointSize + "px");
         
