@@ -1,12 +1,14 @@
 d3.chart("BlockChart", {
   initialize: function() {
     this.w = 250; // sets default values for variables
-    this.h = 200;5
+    this.h = 200;
     this.cols = 10;
     this.rows = 1;
     this.xScale = d3.scale.linear().domain([1, this.cols]).range([0, this.w]);
     this.yScale = d3.scale.linear().domain([1, this.rows+1]).range([0, this.h]);
     this.pVals = ["low", "medium", "high", "unkown"];
+    $(this.base[0]).attr("height", this.h);
+    $(this.base[0]).attr("width", this.q);
     
     var dataBase = this.base.append("g")
         .classed("all-points", true);
@@ -61,6 +63,7 @@ d3.chart("BlockChart", {
     }
     this.w = newWidth;
     this.xScale = d3.scale.linear().domain([1, this.cols]).range([0, this.w]);
+    $(this.base[0]).attr("width", this.q);
     return this;
   },  
   height: function(newHeight) { // height getter-setter
@@ -69,6 +72,7 @@ d3.chart("BlockChart", {
     }
     this.h = newHeight;
     this.yScale = d3.scale.linear().domain([1, this.rows+1]).range([0, this.h]);
+    $(this.base[0]).attr("height", this.h);
     return this;
   },
   columns: function(newColNumber) { // sets the maximum number of columns
