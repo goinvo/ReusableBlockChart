@@ -15,7 +15,7 @@ d3.chart('BlockChart', {
     this.tempData = [];
     $(this.base[0]).attr('height', this.h + 'px');
     $(this.base[0]).attr('width', this.w + 'px');
-    $(this.base[0]).on("mouseleave", function(){ d3.selectAll('.active-point').classed("active-point", false); return tooltip.style("visibility", "hidden");   });
+    $(this.base[0]).on("mouseleave", function(){ d3.selectAll('.active-point').classed("active-point", false); return tooltip.style("visibility", "hidden");   }).on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");});
     
     var tooltip = d3.select('body').append('div')
       .classed('tooltip', 'true')
