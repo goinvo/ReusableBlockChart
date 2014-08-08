@@ -31,3 +31,8 @@
    fill: red; 
 }
 
+.active-point{
+  stroke: black;
+  stroke-width: 10px;
+  stroke-opacity: .1; 
+}

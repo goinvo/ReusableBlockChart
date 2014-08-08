@@ -15,7 +15,7 @@ d3.chart('BlockChart', {
     this.tempData = [];
     $(this.base[0]).attr('height', this.h + 'px');
     $(this.base[0]).attr('width', this.w + 'px');
-    
+    $(this.base[0]).on("mouseleave", function(){ return tooltip.style("visibility", "hidden");   });
     
     var tooltip = d3.select('body').append('div')
       .classed('tooltip', 'true')
@@ -23,6 +23,8 @@ d3.chart('BlockChart', {
       .style('z-index', '1000')
       .style('visibility', 'hidden')
       .text('a simple tooltip');
+    
+    tooltip.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");});
     
     var dataBase = this.base.append('g')
         .classed('all-points', true);
@@ -42,23 +44,23 @@ d3.chart('BlockChart', {
       insert: function() {
         var chart = this.chart(); 
         var pointElements =  returning = this.append('rect')  
-          .attr('class', function(d) {return 'category-' + chart.pVals.indexOf(d.value);})
+          .attr('class', function(d) {return 'point category-' + chart.pVals.indexOf(d.value);})
           .attr('data-category', function(d) {return d.value;})
           .attr('data-category-index', function(d){return chart.pVals.indexOf(d.value);})
           .attr('y', function(d,i) { return chart.getYCoordinate(d,i); } )
           .attr('width', chart.pointSize + 'px')
           .attr('height', chart.pointSize + 'px')
           .each(function(d,i){ if(chart.mode == "all") {chart.valCount[d.value] = chart.valCount[d.value] + 1;} })
+          .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
           .on("mouseover", function(d, i){ 
-            var catPerc = chart.getPercentage(d.value);
-            tooltip.html('<span class = "tooltip-category">Category: ' + d.value + '</span><br><span class ="tooltip-category-num"># of items: ' + chart.valCount[d.value] + '</span><br><span class = "category-percentage">Percentage: ' + catPerc.toFixed(1) + '%</span>'); 
-            tooltip.style("visibility", "visible");
-            d3.selectAll('.category-' + chart.pVals.indexOf(d.value)).attr("stroke", "black").attr("stroke-width", "10px").attr("stroke-opacity", .1);
-            })
-	      .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-	      .on("mouseout", function(d){
-            d3.selectAll('.category-' + chart.pVals.indexOf(d.value)).attr("stroke", "").attr("stroke-width", "").attr("stroke-opacity", "");
-            return tooltip.style("visibility", "hidden");});
+              tooltip.style("visibility", "visible");
+              var catPerc = chart.getPercentage(d.value);
+              tooltip.html('<span class = "tooltip-category">Category: ' + d.value + '</span><br><span class ="tooltip-category-num"># of items: ' + chart.valCount[d.value] + '</span><br><span class = "category-percentage">Percentage: ' + catPerc.toFixed(1) + '%</span>'); 
+            d3.selectAll('.active-point').classed("active-point", false);  
+            d3.selectAll('.category-' + chart.pVals.indexOf(d.value)).classed("active-point", true);
+          }).on("mouseout", function(){
+	            //d3.selectAll('.active-point').classed("active-point", false);
+	         });
         
         return pointElements;
       },
