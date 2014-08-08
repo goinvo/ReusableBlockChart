@@ -15,7 +15,7 @@ d3.chart('BlockChart', {
     this.tempData = [];
     $(this.base[0]).attr('height', this.h + 'px');
     $(this.base[0]).attr('width', this.w + 'px');
-    $(this.base[0]).on("mouseleave", function(){ return tooltip.style("visibility", "hidden");   });
+    $(this.base[0]).on("mouseleave", function(){ d3.selectAll('.active-point').classed("active-point", false); return tooltip.style("visibility", "hidden");   });
     
     var tooltip = d3.select('body').append('div')
       .classed('tooltip', 'true')
@@ -36,7 +36,7 @@ d3.chart('BlockChart', {
         chart.rows = Math.ceil(data.length/chart.cols);
         chart.updateScales();
         data.sort(function(a,b) { var comparison =  chart.pVals.indexOf(a.value) - chart.pVals.indexOf(b.value); return comparison; });
-        this.selectAll('.all-points>rect').remove();
+        this.selectAll('.all-points>.point').remove();
         return this.selectAll('all-points').data(data); // return a data bound selection for the passed in data.
 
       },
@@ -129,7 +129,7 @@ d3.chart('BlockChart', {
     for(var k = 0; k < chart.pVals.length; k++) { // resetting the value of all
       chart.valCount[chart.pVals[k]] = 0;
     }
-    d3.selectAll('.all-points rect').each(function(d,i) { 
+    d3.selectAll('.all-points .point').each(function(d,i) { 
       if(chart.pVals.indexOf(d.value) >= 0) {
         chart.valCount[d.value] = chart.valCount[d.value] + 1;
       }
@@ -147,7 +147,7 @@ d3.chart('BlockChart', {
     this.yScale = d3.scale.linear().domain([1, this.rows]).range([0 + this.margin['top'], this.h  - this.margin['bottom'] - this.pointSize]);
   },
   updateThePoints: function() { // Redraws all of the points
-      chart.layer('all-points').selectAll('rect')
+      chart.layer('all-points').selectAll('.point')
           .attr('y', function(d,i) {  return chart.getYCoordinate(d,i); } )
           .attr('x', function(d,i) { return chart.getXCoordinate(d,i); })
           .attr('width', chart.pointSize + 'px')

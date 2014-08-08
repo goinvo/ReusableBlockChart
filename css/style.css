@@ -42,6 +42,6 @@
 /* This is the class to style the active (or highlighted) points. A point is active when one of the points in the same category is highlighted. */
 .active-point{
   stroke: black;
-  stroke-width: 10px;
-  stroke-opacity: .1; 
+  stroke-width: 7px;
+  stroke-opacity: .2; 
 }
