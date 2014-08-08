@@ -6,7 +6,7 @@ console.log("number of blocks: " + data.length);
 
 var chart = d3.select("#chart-container")
   .append("svg")
-  .chart("BlockChart").columns(10).height(400);
+  .chart("BlockChart").columns(10).height(250);
 
 chart.draw(data);
 

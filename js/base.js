@@ -48,7 +48,7 @@ d3.chart('BlockChart', {
           .attr('y', function(d,i) { return chart.getYCoordinate(d,i); } )
           .attr('width', chart.pointSize + 'px')
           .attr('height', chart.pointSize + 'px')
-          .each(function(d,i){ chart.valCount[d.value] = chart.valCount[d.value] + 1; })
+          .each(function(d,i){ if(chart.mode == "all") {chart.valCount[d.value] = chart.valCount[d.value] + 1;} })
           .on("mouseover", function(d, i){ 
             var catPerc = chart.getPercentage(d.value);
             tooltip.html('<span class = "tooltip-category">Category: ' + d.value + '</span><br><span class ="tooltip-category-num"># of items: ' + chart.valCount[d.value] + '</span><br><span class = "category-percentage">Percentage: ' + catPerc.toFixed(1) + '%</span>'); 
@@ -177,18 +177,31 @@ d3.chart('BlockChart', {
       chart.initialData = chart.tempData;
     }
     var totalPoints = chart.rows * chart.cols;
-    chart.percentData = [];
-    for(var k = 0; k < chart.pVals.length; k ++) {
+    var tempNumberOfPoints = 0;
+    chart.percentData = []; // Reset the percentage data because we should calculate it everytime (in case the data changes)
+    var numPercentElements = {}; // The number of elements for each category based off of percentage
+    var percentElementDecimals = []; // An array of the truncated decimal places after Integer Parsing
+    
+    for(var k = 0; k < chart.pVals.length; k ++) {  // get percentages and number of points for each category based on percentage (because we are parsing integers, the total number of points is less than the requested total number)
       perc = chart.getPercentage(chart.pVals[k]);
-      numElements = parseInt(totalPoints*perc/100);
-      for (var l = 0; l < numElements; l++) {
-        chart.percentData.push({ "key" : "???", "value" : chart.pVals[k]}); 
-      }
-      
-      chart.draw(chart.percentData);
+      numElements = totalPoints*perc/100; // Number of elements (non-integer)
+      numPercentElements[chart.pVals[k]] = parseInt(numElements);
+      percentElementDecimals.push({ "key" : chart.pVals[k],"value" : numElements - numPercentElements[chart.pVals[k]]});
+      tempNumberOfPoints = tempNumberOfPoints + numPercentElements[chart.pVals[k]];
+    }
+    percentElementDecimals.sort(function(a,b) { return b.value - a.value;});
+    var leftOverPoints = totalPoints - tempNumberOfPoints;
+    for(var n = 0; n < leftOverPoints; n++) {  // Adding one point to every element that has a decimal place (starting with the decimal place closest to 1) until we reach the requested total (columns * rows).
+      numPercentElements[percentElementDecimals[n]["key"]]++;
     }
     
-    
+    for(var i = 0;i < chart.pVals.length; i ++) {
+      for (var l = 0; l < numPercentElements[chart.pVals[i]]; l++) {
+        chart.percentData.push({ "key" : "???", "value" : chart.pVals[i]}); 
+      }
+    }
+      
+      chart.draw(chart.percentData);
     //this.updateThePoints();
     return this;
   },
