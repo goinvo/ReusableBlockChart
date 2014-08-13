@@ -1,7 +1,7 @@
 /* This is the container that the chart is drawn in (note: this is completely up to the user) */
-#chart-container { 
-   border: 1px solid black;
-   width: 250px;
+#chart-container svg{ 
+   border: 1px solid #404040;
+   
 }
 
 /* Class to style the tooltip */
@@ -9,8 +9,8 @@
   width: auto;
   padding: 5px 10px;
   background-color:#ffffff;
-  
-  border:1px solid black;
+  color: #404040;
+  border:1px solid #404040;
   font-family:sans-serif;
   font-weight:100;
   font-size:14px;
@@ -18,30 +18,35 @@
 }
 
 /* Category classes for points. The top most category (grouping of points) is 'category-0' and the nth category (bottom most) is 'category-n'. This follows the same order as the array of categories that was passed into to .possibleValues() */
-.category-0 {
-   fill: green; 
+#chart-container .category-0 {
+   fill: #4CC3D9; 
+   
 }
 
-.category-1 {
-   fill: blue; 
+#chart-container .category-1 {
+   fill: #7BC8A4; 
+
 }
 
-.category-2 {
-   fill: orange; 
+#chart-container .category-2 {
+   fill: #FFC65D ; 
+
 }
 
-.category-3 {
-   fill: red; 
+#chart-container .category-3 {
+   fill: #F16745; 
+
 }
 
 /* This is the class to style every point */
 .point {
-  
+  stroke-width: 1px;
+  stroke: #ebebeb;
 }
 
 /* This is the class to style the active (or highlighted) points. A point is active when one of the points in the same category is highlighted. */
 .active-point{
-  stroke: black;
-  stroke-width: 7px;
+  stroke: #404040;
+  stroke-width: 2px;
   stroke-opacity: .2; 
 }

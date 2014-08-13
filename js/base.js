@@ -1,15 +1,41 @@
 d3.chart('BlockChart', {
-  initialize: function() {
-    this.w = 250; // sets default values for variables
-    this.h = 200;
-    this.margin = {'top' : 10, 'right' : 10, 'left' : 10, 'bottom' : 10}; // ***** write a getter-setter??? ******
-    this.cols = 10;
-    this.rows = 1;
-    this.pointSize = 10;
-    this.updateScales();
-    this.pVals = ['low', 'medium', 'high', 'unknown']; // Possible Categories (Values)
+  initialize: function(params) {
+    if(params.width != undefined)
+      this.w = params.width;
+    else
+      this.w = 250; // sets default values for variables
+    if(params.height != undefined)
+      this.h = params.height;
+    else
+      this.h = 250;
+    if(params.margin != undefined)
+      this.margin = params.margin;
+    else
+      this.margin = {'top' : 10, 'right' : 10, 'left' : 10, 'bottom' : 10};  
+    if(params.columns != undefined)
+      this.cols = params.columns;
+    else
+      this.cols = 10;
+    if(params.rows != undefined)
+      this.rows = params.rows;
+    else
+      this.rows = 1;
+    if(params.pointSize != undefined)
+      this.pointSize = params.pointSize;
+    else
+      this.pointSize = 10;
+    if(params.possibleValues != undefined)
+      this.pVals = params.possibleValues;
+    else
+      this.pVals = ['low', 'medium', 'high', 'unknown']; // Possible Categories (Values)
+    if(params.mode != undefined) 
+      this.mode = params.mode;
+    else
+      this.mode = "all";
     this.valCount = {'low' : 0, 'medium' : 0 , 'high' : 0, 'unknown' : 0}; // Count of items that belong to each possible catgory
-    this.mode = "all";
+    this.updateScales();
+    
+    
     this.initialData = [];
     this.percentData = [];
     this.tempData = [];
@@ -88,6 +114,7 @@ d3.chart('BlockChart', {
     this.w = newWidth;
     this.updateScales();
     $(this.base[0]).attr('width', this.q);
+    this.updateThePoints();
     return this;
   },  
   height: function(newHeight) { // height getter-setter
@@ -96,6 +123,7 @@ d3.chart('BlockChart', {
     }
     this.h = newHeight;
     this.updateScales();
+    this.updateThePoints();
     $(this.base[0]).attr('height', this.h);
     return this;
   },
@@ -110,7 +138,7 @@ d3.chart('BlockChart', {
   row: function(newRowNumber) { // gets the current number of rows (defaults to 10 but should update after data is added)
       return this.rows;
   },
-  pointSizes: function(newSize) { // sets the size for each point
+  pointSize: function(newSize) { // sets the size for each point
     if (arguments.length === 0) {
       return this.pointSize;
     }
