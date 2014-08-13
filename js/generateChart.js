@@ -18,6 +18,12 @@ var chart = d3.select("#chart-container")
   });
 chart.draw(data);
 chart.showPercentages();
+
+$(chart).on('chartElementClicked', function(e, eventData) {
+  console.log(eventData);
+});
+
+
 //chart.showAllPoints().height(450);
 
 console.log("number of columns: " + chart.cols);
