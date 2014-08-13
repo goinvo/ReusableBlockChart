@@ -32,13 +32,13 @@ A reusable block chart that plots a dataset by category. You can have one point 
 <div id ="chart-container"> </div>
 ```
 
-4. In a seperate .js file or inline, create a variable to store your data in the following format:
+4. In a separate .js file or inline, create a variable to store your data in the following format:
 
 ```javascript
 var data = [{"key" : "name-0", "value" : "low"} , {"key" : "name-1", "value" : "high"}, ... {"key" : "name-n", "value" : "medium"}};
 ```
   
-5. Using d3, select the div that you want the chart to be placed in, append an svg element, and initialize the chart (with an optional parameter of preferences. More information on this data in the 'initalize my my chart' section)
+5. Using d3, select the div that you want the chart to be placed in, append an svg element, and initialize the chart (with an optional parameter of preferences. More information on this data in the 'initialize my my chart' section)
 
 ```javascript
 var chart = d3.select("#chart-container")
@@ -83,7 +83,7 @@ var chart = d3.select("#chart-container")
 ```
 
 ### Preference Parameters
-A list of all possible prefernces that you can configure when initializing the chart
+A list of all possible preferences that you can configure when initializing the chart
 
 ```javascript
 .chart("BlockChart", {
