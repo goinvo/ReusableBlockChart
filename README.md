@@ -148,41 +148,41 @@ A list of all possible prefernces that you can configure when initializing the c
 
 Many of these methods are simply used as getters/setters for the initialization parameters listed above.
 
-1. ```width([newWidth]) ```
+1. ``` width([newWidth]) ```
 
-2. ```height([newHeight])```
+2. ``` height([newHeight]) ```
 
-3. ```columns([newNumberOfColumns])```
+3. ``` columns([newNumberOfColumns]) ```
 
-4. ```rows()```
+4. ``` rows() ```
   Returns the calculated number of rows. This is calculated by (# of points)/(# of columns).
 
-5. ```pointSize([newPointSize])```
+5. ``` pointSize([newPointSize]) ```
 
-6. ```possibleValues([newArrayofPossibleValues])```
+6. ``` possibleValues([newArrayofPossibleValues]) ```
 
-7. ```valueCount()```
-  Returns an array of the number of points for each value (category). e.g. ```{"unknown" : 10, "low" : 24, "medium" : 22, "high" : 45}``
+7. ``` valueCount() ```
+  Returns an array of the number of points for each value (category). e.g. ``` {"unknown" : 10, "low" : 24, "medium" : 22, "high" : 45} ```
   
-8. ```updateScales()```
+8. ``` updateScales() ```
   Should you ever need to recalculate the x and y scales, call this function. All methods that would need this to happen already call this function.
   
-9. ```updateThePoints()```
+9. ``` updateThePoints() ```
   Redraws all of the points on the screen.
   
-10. ```getXCoordinate(d,i)```
+10. ``` getXCoordinate(d,i) ```
   Used internally to return the x-coordinate of a specific point
 
-11. ```getYCoordinate(d,i)```
+11. ``` getYCoordinate(d,i) ```
   Used internally to return the y-coordinate of a specific point
   
-12. ```getMode()```
+12. ``` getMode() ```
   Returns the current mode of the graph. (possible values are "All" or "Percent").
 
-13. ```showPercentages()```
+13. ``` showPercentages() ```
   Changes the chart mode to "Percent". The total number of points is changed to 100 and is proportionally distributed throughout the categories. For the nicest possible graph, I suggest setting the number of columns to 10 and changing the width and height so that they are equal. This will give you a nice 10x10 square chart.
   
-  You cannot call this until after you have called ```chart.draw(data)```.
+  You cannot call this until after you have called ``` chart.draw(data) ```.
   
-14. ```showAllPoints()```
+14. ``` showAllPoints() ```
   Changes the chart mode to "all". This is the default mode. Each point on the chart represents a datapoint.
