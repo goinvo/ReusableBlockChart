@@ -227,7 +227,7 @@ See the stylesheet *css/style.css* for specific examples.
   
 4. `` .category-0 `` , ``` .category-1 ```, ..., ``` .category-n ```
 
-  Every point is given a classname that is chosen based on it's category where the classname is ``` .category-# ```. Where "category" is literally the word category and "#" the index of the category (value) in the array of possible values.
+  Every point is given a classname that is chosen based on it's category ``` .category-# ```, where "category" is literally the word category and "#" the index of the category (value) in the array of possible values.
   
   e.g. 
   
@@ -241,6 +241,9 @@ See the stylesheet *css/style.css* for specific examples.
   | low              | .category-1 |
   | medium           | .category-2 |
   | high             | .category-3 |
+  
+  
+  This is useful for setting the colors (or various other styles) for each category.
   
 5. ``` .tooltip ```
 
