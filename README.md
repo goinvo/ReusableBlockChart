@@ -82,7 +82,7 @@ var chart = d3.select("#chart-container")
   });
 ```
 
-###Preference Parameters
+### Preference Parameters
 A list of all possible prefernces that you can configure when initializing the chart
 
 ```javascript
@@ -96,7 +96,7 @@ A list of all possible prefernces that you can configure when initializing the c
   })
 ```
 
-1. Width - An integer that represents the width of the chart (this includes the inner margins). When setting the width, be sure to think about the number of columns, block size, an spacing between points. 
+1. **Width** - An integer that represents the width of the chart (this includes the inner margins). When setting the width, be sure to think about the number of columns, block size, an spacing between points. 
 
   This defaults to 250px.
 
@@ -104,7 +104,7 @@ A list of all possible prefernces that you can configure when initializing the c
   "width" : 225
   ```
 
-2. Height - An integer that represents the height of the chart (this includes the inner margins). When setting the height, be sure to think about the number of rows (calculated by # of points/# of columns), block size, an spacing between points. When showing percentages, you probably want the width and height to be equal, as the chart looks best in a square.
+2. **Height** - An integer that represents the height of the chart (this includes the inner margins). When setting the height, be sure to think about the number of rows (calculated by # of points/# of columns), block size, an spacing between points. When showing percentages, you probably want the width and height to be equal, as the chart looks best in a square.
 
   This defaults to 250px.
 
@@ -112,7 +112,7 @@ A list of all possible prefernces that you can configure when initializing the c
   "height" : 225
   ```
 
-3. Margin - An JSON object containing the amount of space between the edge of the svg and the points (this is probably more synonymous with padding of the outer div). You must use the following format:
+3. **Margin** - An JSON object containing the amount of space between the edge of the svg and the points (this is probably more synonymous with padding of the outer div). You must use the following format:
 
   This defaults to ```{'top' : 10, 'right' : 10, 'left' : 10, 'bottom' : 10}```.
 
@@ -120,7 +120,7 @@ A list of all possible prefernces that you can configure when initializing the c
   "margin" : {'top' : 10, 'right' : 10, 'left' : 10, 'bottom' : 10}
   ```
 
-4. Columns - The number of columns to be used in the chart. The number of rows is calculated from the # of points/# of columns. (tip: when plotting percentage, I like to keep the number of columns at '10' so I have a nice square 10x10 plot).
+4. **Columns** - The number of columns to be used in the chart. The number of rows is calculated from the # of points/# of columns. (tip: when plotting percentage, I like to keep the number of columns at '10' so I have a nice square 10x10 plot).
 
   This defaults to 10.
 
@@ -128,7 +128,7 @@ A list of all possible prefernces that you can configure when initializing the c
   "columns" : 10
   ```
 
-5. Point Size - The height & width of each square point in pixels. When setting this value, make sure you take note of the width & height of the chart, the margins, the number of columns, and the spacing that you want between points.
+5. **Point Size** - The height & width of each square point in pixels. When setting this value, make sure you take note of the width & height of the chart, the margins, the number of columns, and the spacing that you want between points.
 
   This defaults to 10.
 
@@ -136,7 +136,7 @@ A list of all possible prefernces that you can configure when initializing the c
   "pointSize" : 15
   ```
 
-6. Possible Values - This parameter is almost always necessary. This is an array of the possible values (or categories) that any point can have. The order of this array determines the order of the categories. The value at index 0 will be the category who's points are at the top of the chart, while the value at the last index will be the category who's points are at the bottom of the chart. The index is also used for styling of each category's points. If a datapoint has a value that is not in this array, it will not be drawn on the chart.
+6. **Possible Values** - This parameter is almost always necessary. This is an array of the possible values (or categories) that any point can have. The order of this array determines the order of the categories. The value at index 0 will be the category who's points are at the top of the chart, while the value at the last index will be the category who's points are at the bottom of the chart. The index is also used for styling of each category's points. If a datapoint has a value that is not in this array, it will not be drawn on the chart.
 
   This defaults to ```['unknown', 'low', 'medium', 'high']``` (where the points who's category is 'unknown' are at the top of the graph [blue in the image at the top of this page] and 'high' are at the bottom [red in the image at the top of this page).
 
@@ -144,3 +144,45 @@ A list of all possible prefernces that you can configure when initializing the c
   "possibleValues" : ["unknown", "low", "medium", "high"]
   ```
 
+## Methods
+
+Many of these methods are simply used as getters/setters for the initialization parameters listed above.
+
+1. ```width([newWidth]) ```
+
+2. ```height([newHeight])```
+
+3. ```columns([newNumberOfColumns])```
+
+4. ```rows()```
+  Returns the calculated number of rows. This is calculated by (# of points)/(# of columns).
+
+5. ```pointSize([newPointSize])```
+
+6. ```possibleValues([newArrayofPossibleValues])```
+
+7. ```valueCount()```
+  Returns an array of the number of points for each value (category). e.g. ```{"unknown" : 10, "low" : 24, "medium" : 22, "high" : 45}``
+  
+8. ```updateScales()```
+  Should you ever need to recalculate the x and y scales, call this function. All methods that would need this to happen already call this function.
+  
+9. ```updateThePoints()```
+  Redraws all of the points on the screen.
+  
+10. ```getXCoordinate(d,i)```
+  Used internally to return the x-coordinate of a specific point
+
+11. ```getYCoordinate(d,i)```
+  Used internally to return the y-coordinate of a specific point
+  
+12. ```getMode()```
+  Returns the current mode of the graph. (possible values are "All" or "Percent").
+
+13. ```showPercentages()```
+  Changes the chart mode to "Percent". The total number of points is changed to 100 and is proportionally distributed throughout the categories. For the nicest possible graph, I suggest setting the number of columns to 10 and changing the width and height so that they are equal. This will give you a nice 10x10 square chart.
+  
+  You cannot call this until after you have called ```chart.draw(data)```.
+  
+14. ```showAllPoints()```
+  Changes the chart mode to "all". This is the default mode. Each point on the chart represents a datapoint.
