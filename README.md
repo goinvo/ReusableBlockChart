@@ -186,3 +186,23 @@ Many of these methods are simply used as getters/setters for the initialization 
   
 14. ``` showAllPoints() ```
   Changes the chart mode to "all". This is the default mode. Each point on the chart represents a datapoint.
+  
+### Chart Events
+
+1. When a point on the chart is clicked on, the event **chartElementClicked** is triggered. You can create a listener for this event with the following code after initializing the chart.
+  
+  ```javascript
+  $(chart).on('chartElementClicked', function(e, eventData) {
+    // enter code here  
+  });
+  ```
+  
+  ``` eventData ``` contains the data bound to the element that you clicked on. So it will be in the format ``` { "key" : "category-0", "value" : "high" } ```
+  
+  
+2. When the cursor hovers over a point, all points with the same category are given a class of ``` .active-point ```.
+
+
+## Styling the Chart
+
+1. 

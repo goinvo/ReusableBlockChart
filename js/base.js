@@ -25,15 +25,20 @@ d3.chart('BlockChart', {
     else
       this.pointSize = 10;
     if(params.possibleValues != undefined)
-      this.possibleValues(params.possibleValues);
+      this.pVals = params.possibleValues;
     else
-      this.possibleValues(['unknown', 'low', 'medium', 'high']); // Possible Categories (Values)
+      this.pVals = ['unknown', 'low', 'medium', 'high']; // Possible Categories (Values)
     if(params.mode != undefined) 
       this.mode = params.mode;
     else
       this.mode = "all";
-    this.updateScales();
+    this.valCount = {}; // Count of items that belong to each possible catgory
     
+    for(var k = 0; k < this.pVals.length; k++) { // resetting the value of all
+      this.valCount[this.pVals[k]] = 0;
+    }
+    
+    this.updateScales();
     
     this.initialData = [];
     this.percentData = [];
