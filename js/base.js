@@ -25,14 +25,13 @@ d3.chart('BlockChart', {
     else
       this.pointSize = 10;
     if(params.possibleValues != undefined)
-      this.pVals = params.possibleValues;
+      this.possibleValues(params.possibleValues);
     else
-      this.pVals = ['low', 'medium', 'high', 'unknown']; // Possible Categories (Values)
+      this.possibleValues(['unknown', 'low', 'medium', 'high']); // Possible Categories (Values)
     if(params.mode != undefined) 
       this.mode = params.mode;
     else
       this.mode = "all";
-    this.valCount = {'low' : 0, 'medium' : 0 , 'high' : 0, 'unknown' : 0}; // Count of items that belong to each possible catgory
     this.updateScales();
     
     
