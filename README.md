@@ -155,6 +155,7 @@ Many of these methods are simply used as getters/setters for the initialization 
 3. ``` columns([newNumberOfColumns]) ```
 
 4. ``` rows() ```
+  
   Returns the calculated number of rows. This is calculated by (# of points)/(# of columns).
 
 5. ``` pointSize([newPointSize]) ```
@@ -162,31 +163,40 @@ Many of these methods are simply used as getters/setters for the initialization 
 6. ``` possibleValues([newArrayofPossibleValues]) ```
 
 7. ``` valueCount() ```
+  
   Returns an array of the number of points for each value (category). e.g. ``` {"unknown" : 10, "low" : 24, "medium" : 22, "high" : 45} ```
   
 8. ``` updateScales() ```
+  
   Should you ever need to recalculate the x and y scales, call this function. All methods that would need this to happen already call this function.
   
 9. ``` updateThePoints() ```
+  
   Redraws all of the points on the screen.
   
 10. ``` getXCoordinate(d,i) ```
+  
   Used internally to return the x-coordinate of a specific point
 
 11. ``` getYCoordinate(d,i) ```
+  
   Used internally to return the y-coordinate of a specific point
   
 12. ``` getMode() ```
+  
   Returns the current mode of the graph. (possible values are "All" or "Percent").
 
 13. ``` showPercentages() ```
+  
   Changes the chart mode to "Percent". The total number of points is changed to 100 and is proportionally distributed throughout the categories. For the nicest possible graph, I suggest setting the number of columns to 10 and changing the width and height so that they are equal. This will give you a nice 10x10 square chart.
   
   You cannot call this until after you have called ``` chart.draw(data) ```.
   
 14. ``` showAllPoints() ```
+  
   Changes the chart mode to "all". This is the default mode. Each point on the chart represents a datapoint.
   
+
 ### Chart Events
 
 1. When a point on the chart is clicked on, the event **chartElementClicked** is triggered. You can create a listener for this event with the following code after initializing the chart.
@@ -200,9 +210,38 @@ Many of these methods are simply used as getters/setters for the initialization 
   ``` eventData ``` contains the data bound to the element that you clicked on. So it will be in the format ``` { "key" : "category-0", "value" : "high" } ```
   
   
-2. When the cursor hovers over a point, all points with the same category are given a class of ``` .active-point ```.
+2. When the cursor hovers over a point, all points with the same category are given a class of ``` .active-point ```. The tooltip is also displayed.
 
 
 ## Styling the Chart
 
-1. 
+See the stylesheet *css/style.css* for specific examples.
+
+1. ``` .point ``` 
+
+  All points on the graph are given this classname of ``` .point ```. Each point is an svg element ``` <rect> ``` and you can style them as you would with any other svg element.
+  
+3. ``` .active-point ```
+
+  When the cursor hovers over a point, the classname of ``` .active-point ``` is given to every point that belongs in the category (aka has the same value). You can use this to highlight an entire category. 
+  
+4. `` .category-0 `` , ``` .category-1 ```, ..., ``` .category-n ```
+
+  Every point is given a classname that is chosen based on it's category where the classname is ``` .category-# ```. Where "category" is literally the word category and "#" the index of the category (value) in the array of possible values.
+  
+  e.g. 
+  
+  ```javascript 
+  chart.possibleValues(["unknown", "low", "medium", "high"]);
+  ```
+  
+  | Value (Category) | Classname   |
+  | ---------------- | ----------- |
+  | unknown          | .category-0 |
+  | low              | .category-1 |
+  | medium           | .category-2 |
+  | high             | .category-3 |
+  
+5. ``` .tooltip ```
+
+  This is the classname given to the tooltip.
