@@ -82,7 +82,7 @@ var chart = d3.select("#chart-container")
   });
 ```
 
-#Preference Parameters
+###Preference Parameters
 A list of all possible prefernces that you can configure when initializing the chart
 
 ```javascript
