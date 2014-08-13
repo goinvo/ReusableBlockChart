@@ -7,14 +7,12 @@ console.log("number of blocks: " + data.length);
 var chart = d3.select("#chart-container")
   .append("svg")
   .chart("BlockChart", {
-    "mode" : "percent",
     "height" : 225,
     "width" : 225,
     "columns" : 10,
     "pointSize" : 15,
     "margin" : {"top" : 15, "right" : 15, "left" : 15, "bottom" : 15},
-    "possibleValues" : ["unknown", "low", "medium", "high"],
-    "mode" : "all"
+    "possibleValues" : ["unknown", "low", "medium", "high"]
   });
 chart.draw(data);
 chart.showPercentages();
