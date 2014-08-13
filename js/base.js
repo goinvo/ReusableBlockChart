@@ -81,7 +81,7 @@ d3.chart('BlockChart', {
           .attr('y', function(d,i) { return chart.getYCoordinate(d,i); } )
           .attr('width', chart.pointSize + 'px')
           .attr('height', chart.pointSize + 'px')
-          .each(function(d,i){ console.log(d); if(chart.mode == "all") {chart.valCount[d.value] = chart.valCount[d.value] + 1;} })
+          .each(function(d,i){if(chart.mode == "all") {chart.valCount[d.value] = chart.valCount[d.value] + 1;} })
           .on("click", function(d) { $(chart).trigger('chartElementClicked', [{"category" : d.value, "key" : d.key}]); })  // custom event with name 'chartElementClicked' thrown on the chart object
           .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
           .on("mouseover", function(d, i){ 
