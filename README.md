@@ -164,7 +164,7 @@ Many of these methods are simply used as getters/setters for the initialization 
 
 7. ``` valueCount() ```
   
-  Returns an array of the number of points for each value (category). e.g. ``` {"unknown" : 10, "low" : 24, "medium" : 22, "high" : 45} ```
+  Returns a JSON object of the number of points for each value (category). e.g. ``` {"unknown" : 10, "low" : 24, "medium" : 22, "high" : 45} ```
   
 8. ``` updateScales() ```
   
@@ -219,7 +219,7 @@ See the stylesheet *css/style.css* for specific examples.
 
 1. ``` .point ``` 
 
-  All points on the graph are given this classname of ``` .point ```. Each point is an svg element ``` <rect> ``` and you can style them as you would with any other svg element.
+  All points on the graph are given this classname of ``` .point ```. Each point is an svg element ``` <rect> ``` and you can style them as you would any other svg element.
   
 3. ``` .active-point ```
 
@@ -227,7 +227,7 @@ See the stylesheet *css/style.css* for specific examples.
   
 4. `` .category-0 `` , ``` .category-1 ```, ..., ``` .category-n ```
 
-  Every point is given a classname that is chosen based on it's category ``` .category-# ```, where "category" is literally the word category and "#" the index of the category (value) in the array of possible values.
+  Every point is given a classname that is chosen based on its category ``` .category-# ```, where "category" is literally the word category and "#" the index of the category (value) in the array of possible values.
   
   e.g. 
   
