@@ -74,7 +74,7 @@ d3.chart('BlockChart', {
       // setup the elements that were just created
       insert: function() {
         var chart = this.chart(); 
-        var pointElements =  returning = this.append('rect')  
+        var pointElements = this.append('rect')  
           .attr('class', function(d) {return 'point category-' + chart.pVals.indexOf(d.value);})
           .attr('data-category', function(d) {return d.value;})
           .attr('data-category-index', function(d){return chart.pVals.indexOf(d.value);})
