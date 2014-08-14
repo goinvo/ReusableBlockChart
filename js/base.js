@@ -1,3 +1,4 @@
+//For the 'defragmentor' block chart
 d3.chart('BlockChart', {
   initialize: function(params) {
     if(params.width != undefined)
@@ -73,8 +74,8 @@ d3.chart('BlockChart', {
       },
       // setup the elements that were just created
       insert: function() {
-        var chart = this.chart(); 
-        var pointElements = this.append('rect')  
+        var chart = this.chart();
+        var pointElements =  this.append('rect')  
           .attr('class', function(d) {return 'point category-' + chart.pVals.indexOf(d.value);})
           .attr('data-category', function(d) {return d.value;})
           .attr('data-category-index', function(d){return chart.pVals.indexOf(d.value);})
@@ -157,23 +158,23 @@ d3.chart('BlockChart', {
   },
   possibleValues: function(values) { // sets the categories (aka possible data values). Takes in an array of values e.g ['low', 'medium', 'high', 'unkown'], items will be sorted by 
     if (arguments.length === 0) {
-      return chart.pVals;
+      return this.pVals;
     }
-    chart.pVals = values;
-    chart.valCount = {};
+    this.pVals = values;
+    this.valCount = {};
     
-    for(var k = 0; k < chart.pVals.length; k++) { // resetting the value of all
-      chart.valCount[chart.pVals[k]] = 0;
+    for(var k = 0; k < this.pVals.length; k++) { // resetting the value of all
+      this.valCount[this.pVals[k]] = 0;
     }
     d3.selectAll('.all-points .point').each(function(d,i) { 
-      if(chart.pVals.indexOf(d.value) >= 0) {
-        chart.valCount[d.value] = chart.valCount[d.value] + 1;
+      if(this.pVals.indexOf(d.value) >= 0) {
+        this.valCount[d.value] = this.valCount[d.value] + 1;
       }
       else {
         this.remove();
       }
     });
-    chart.updateThePoints();
+    this.updateThePoints();
   },
   valueCount: function() { // getter for the object that holds the count of all items by value
     return this.valCount;
@@ -183,11 +184,11 @@ d3.chart('BlockChart', {
     this.yScale = d3.scale.linear().domain([1, this.rows]).range([0 + this.margin['top'], this.h  - this.margin['bottom'] - this.pointSize]);
   },
   updateThePoints: function() { // Redraws all of the points
-      chart.layer('all-points').selectAll('.point')
-          .attr('y', function(d,i) {  return chart.getYCoordinate(d,i); } )
-          .attr('x', function(d,i) { return chart.getXCoordinate(d,i); })
-          .attr('width', chart.pointSize + 'px')
-          .attr('height', chart.pointSize + 'px');
+      this.layer('all-points').selectAll('.point')
+          .attr('y', function(d,i) {  return this.getYCoordinate(d,i); } )
+          .attr('x', function(d,i) { return this.getXCoordinate(d,i); })
+          .attr('width', this.pointSize + 'px')
+          .attr('height', this.pointSize + 'px');
 
   },
   
@@ -199,33 +200,33 @@ d3.chart('BlockChart', {
   },
   getPercentage: function(category) { // returns the perctenage of points with that category (value)
     var catPerc = 0;
-    for(var k = 0; k < chart.pVals.length; k++) {
-      catPerc = catPerc + chart.valCount[chart.pVals[k]];
+    for(var k = 0; k < this.pVals.length; k++) {
+      catPerc = catPerc + this.valCount[this.pVals[k]];
     }
-    if(catPerc != 0) { catPerc = chart.valCount[category]/catPerc*100; }
+    if(catPerc != 0) { catPerc = this.valCount[category]/catPerc*100; }
     return catPerc;
   },
   getMode: function() { // returns the perctenage of points with that category (value)
-    return chart.mode;
+    return this.mode;
   },
   showPercentages: function() { // Changes the display to percentages **** Fix rounding error
-    chart.rows = 10;
-    chart.mode = "percent";
-    if(chart.initialData.length === 0) {
-      chart.initialData = chart.tempData;
+    this.rows = 10;
+    this.mode = "percent";
+    if(this.initialData.length === 0) {
+      this.initialData = this.tempData;
     }
-    var totalPoints = chart.rows * chart.cols;
+    var totalPoints = this.rows * this.cols;
     var tempNumberOfPoints = 0;
-    chart.percentData = []; // Reset the percentage data because we should calculate it everytime (in case the data changes)
+    this.percentData = []; // Reset the percentage data because we should calculate it everytime (in case the data changes)
     var numPercentElements = {}; // The number of elements for each category based off of percentage
     var percentElementDecimals = []; // An array of the truncated decimal places after Integer Parsing
     
-    for(var k = 0; k < chart.pVals.length; k ++) {  // get percentages and number of points for each category based on percentage (because we are parsing integers, the total number of points is less than the requested total number)
-      perc = chart.getPercentage(chart.pVals[k]);
+    for(var k = 0; k < this.pVals.length; k ++) {  // get percentages and number of points for each category based on percentage (because we are parsing integers, the total number of points is less than the requested total number)
+      perc =  this.getPercentage(this.pVals[k]);
       numElements = totalPoints*perc/100; // Number of elements (non-integer)
-      numPercentElements[chart.pVals[k]] = parseInt(numElements);
-      percentElementDecimals.push({ "key" : chart.pVals[k],"value" : numElements - numPercentElements[chart.pVals[k]]});
-      tempNumberOfPoints = tempNumberOfPoints + numPercentElements[chart.pVals[k]];
+      numPercentElements[this.pVals[k]] = parseInt(numElements);
+      percentElementDecimals.push({ "key" : this.pVals[k],"value" : numElements - numPercentElements[this.pVals[k]]});
+      tempNumberOfPoints = tempNumberOfPoints + numPercentElements[this.pVals[k]];
     }
     percentElementDecimals.sort(function(a,b) { return b.value - a.value;});
     var leftOverPoints = totalPoints - tempNumberOfPoints;
@@ -233,23 +234,23 @@ d3.chart('BlockChart', {
       numPercentElements[percentElementDecimals[n]["key"]]++;
     }
     
-    for(var i = 0;i < chart.pVals.length; i ++) {
-      for (var l = 0; l < numPercentElements[chart.pVals[i]]; l++) {
-        chart.percentData.push({ "key" : "???", "value" : chart.pVals[i]}); 
+    for(var i = 0;i < this.pVals.length; i ++) {
+      for (var l = 0; l < numPercentElements[this.pVals[i]]; l++) {
+        this.percentData.push({ "key" : "???", "value" : this.pVals[i]}); 
       }
     }
       
-      chart.draw(chart.percentData);
+      this.draw(this.percentData);
     //this.updateThePoints();
     return this;
   },
   showAllPoints: function() { // Changes the display to all points
-    chart.mode = "all";
-    if(chart.initialData.length === 0) {
-      chart.draw(chart.tempData); 
+    this.mode = "all";
+    if(this.initialData.length === 0) {
+      this.draw(this.tempData); 
     }
     else {
-      chart.draw(chart.initialData);
+      this.draw(this.initialData);
     }
     //this.updateThePoints();
     return this;
